@@ -1,16 +1,30 @@
-import { Navigate } from 'react-router-dom';
-import { getCookie } from '@utils/cookie';
+import { FC, ReactNode } from 'react';
+import { useSelector } from '../../services/store';
+import { Preloader } from '@ui';
+import { Navigate, useLocation } from 'react-router-dom';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
+type ProtectedRouteProps = {
+  children: ReactNode;
+  noAuthOnly?: boolean;
+};
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const token = getCookie('accessToken');
+export const ProtectedRoute: FC<ProtectedRouteProps> = ({
+  children,
+  noAuthOnly
+}) => {
+  const user = useSelector((state) => state.user);
+  const location = useLocation();
+  const from = location.state?.from || '/';
 
-  if (!token) {
-    return <Navigate to='/login' replace />;
-  }
-
-  return <>{children}</>;
+  return !user.isAuthChecked || user.isAuthLoading ? (
+    <Preloader />
+  ) : (user.user === null) === (noAuthOnly === true) ? (
+    <>{children}</>
+  ) : (
+    <Navigate
+      to={noAuthOnly ? from : '/login'}
+      state={{ from: location }}
+      replace
+    />
+  );
 };
