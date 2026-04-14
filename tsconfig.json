@@ -29,7 +29,6 @@
       "@slices": ["src/services/slices"],
       "@selectors": ["src/services/selectors"]
     },
-    "ignoreDeprecations": "6.0"
   },
   "include": ["src"]
 }
