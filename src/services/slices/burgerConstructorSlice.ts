@@ -116,3 +116,5 @@ export const burgerConstructorSlice = createSlice({
 
 export const { addIngredient, moveIngredient, deleteIngredient, resetState } =
   burgerConstructorSlice.actions;
+
+export default burgerConstructorSlice.reducer;
