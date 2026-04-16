@@ -3,78 +3,33 @@ import {
   addIngredient,
   moveIngredient,
   deleteIngredient,
-  resetState
+  resetState,
+  burgerConstructorInitialState
 } from '../slices/burgerConstructorSlice';
-import { TIngredient, TConstructorIngredient } from '@utils-types';
-
-const mockIngredient: TIngredient = {
-  _id: '643d69a5c3f7b9001cef0370',
-  name: 'Краторная булка N-200i',
-  type: 'bun',
-  proteins: 80,
-  fat: 24,
-  carbohydrates: 53,
-  calories: 420,
-  price: 1255,
-  image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-  image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/bun-01-mobile.png'
-};
-
-const mockMainIngredient: TIngredient = {
-  _id: '643d69a5c3f7b9001cef0372',
-  name: 'Мясо бессмертных животных',
-  type: 'main',
-  proteins: 433,
-  fat: 244,
-  carbohydrates: 33,
-  calories: 4242,
-  price: 1337,
-  image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-  image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-};
-
-const mockSauceIngredient: TIngredient = {
-  _id: '643d69a5c3f7b9001cef0374',
-  name: 'Соус Spicy-X',
-  type: 'sauce',
-  proteins: 30,
-  fat: 20,
-  carbohydrates: 42,
-  calories: 99,
-  price: 90,
-  image: 'https://code.s3.yandex.net/react/code/sauce-01.png',
-  image_large: 'https://code.s3.yandex.net/react/code/sauce-01-large.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/sauce-01-mobile.png'
-};
+import { TConstructorIngredient } from '@utils-types';
+import { TEST_INGREDIENTS, createConstructorIngredient } from './test-data';
 
 describe('burgerConstructorSlice', () => {
-  const initialState = {
-    bun: null,
-    ingredients: [],
-    orderRequest: false,
-    orderModalData: null
-  };
+  const initialState = burgerConstructorInitialState;
 
   describe('addIngredient', () => {
     it('should add bun ingredient to state', () => {
       const state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockIngredient)
+        addIngredient(TEST_INGREDIENTS.bun)
       );
 
       expect(state.bun).not.toBeNull();
-      expect(state.bun?.name).toBe('Краторная булка N-200i');
+      expect(state.bun?.name).toBe(TEST_INGREDIENTS.bun.name);
       expect(state.bun?.type).toBe('bun');
-      expect(state.bun?.price).toBe(1255);
+      expect(state.bun?.price).toBe(TEST_INGREDIENTS.bun.price);
       expect(state.bun?.id).toBeDefined();
     });
 
     it('should add main ingredient to ingredients array', () => {
       const state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       expect(state.ingredients).toHaveLength(1);
@@ -86,26 +41,26 @@ describe('burgerConstructorSlice', () => {
     it('should add sauce ingredient to ingredients array', () => {
       const state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
 
       expect(state.ingredients).toHaveLength(1);
-      expect(state.ingredients[0].name).toBe('Соус Spicy-X');
+      expect(state.ingredients[0].name).toBe(TEST_INGREDIENTS.sauce.name);
       expect(state.ingredients[0].type).toBe('sauce');
     });
 
     it('should add multiple ingredients to ingredients array', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       expect(state.ingredients).toHaveLength(3);
@@ -117,12 +72,12 @@ describe('burgerConstructorSlice', () => {
     it('should replace bun when adding new bun ingredient', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockIngredient)
+        addIngredient(TEST_INGREDIENTS.bun)
       );
-      expect(state.bun?.name).toBe('Краторная булка N-200i');
+      expect(state.bun?.name).toBe(TEST_INGREDIENTS.bun.name);
 
-      const anotherBun: TIngredient = {
-        ...mockIngredient,
+      const anotherBun = {
+        ...TEST_INGREDIENTS.bun,
         _id: '643d69a5c3f7b9001cef0371',
         name: 'Флюоресцентная булка R2D3'
       };
@@ -134,13 +89,13 @@ describe('burgerConstructorSlice', () => {
     it('should generate unique id for each ingredient', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       const firstId = state.ingredients[0].id;
 
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       const secondId = state.ingredients[1].id;
 
@@ -154,15 +109,15 @@ describe('burgerConstructorSlice', () => {
     it('should delete ingredient at specified index', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       expect(state.ingredients).toHaveLength(3);
@@ -177,7 +132,7 @@ describe('burgerConstructorSlice', () => {
     it('should not delete if index is out of bounds', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       expect(state.ingredients).toHaveLength(1);
@@ -199,11 +154,11 @@ describe('burgerConstructorSlice', () => {
     it('should delete first ingredient when index is 0', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
 
       state = burgerConstructorSlice.reducer(state, deleteIngredient(0));
@@ -217,15 +172,15 @@ describe('burgerConstructorSlice', () => {
     it('should move ingredient down when direction is "down"', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       const firstIngredientId = state.ingredients[0].id;
@@ -243,15 +198,15 @@ describe('burgerConstructorSlice', () => {
     it('should move ingredient up when direction is "up"', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       const secondIngredientId = state.ingredients[1].id;
@@ -269,11 +224,11 @@ describe('burgerConstructorSlice', () => {
     it('should not move ingredient down when at last position', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
 
       const sauceId = state.ingredients[1].id;
@@ -289,11 +244,11 @@ describe('burgerConstructorSlice', () => {
     it('should not move ingredient up when at first position', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
 
       const mainId = state.ingredients[0].id;
@@ -309,11 +264,11 @@ describe('burgerConstructorSlice', () => {
     it('should not move when index is out of bounds', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockSauceIngredient)
+        addIngredient(TEST_INGREDIENTS.sauce)
       );
 
       const originalState = JSON.stringify(state);
@@ -331,11 +286,11 @@ describe('burgerConstructorSlice', () => {
     it('should reset all state to initial values', () => {
       let state = burgerConstructorSlice.reducer(
         initialState,
-        addIngredient(mockIngredient)
+        addIngredient(TEST_INGREDIENTS.bun)
       );
       state = burgerConstructorSlice.reducer(
         state,
-        addIngredient(mockMainIngredient)
+        addIngredient(TEST_INGREDIENTS.main)
       );
 
       state = burgerConstructorSlice.reducer(state, resetState());
@@ -348,9 +303,9 @@ describe('burgerConstructorSlice', () => {
 
     it('should clear bun, ingredients, and order data', () => {
       let state: any = {
-        bun: { ...mockIngredient, id: '1' } as TConstructorIngredient,
+        bun: { ...TEST_INGREDIENTS.bun, id: '1' } as TConstructorIngredient,
         ingredients: [
-          { ...mockMainIngredient, id: '2' } as TConstructorIngredient
+          { ...TEST_INGREDIENTS.main, id: '2' } as TConstructorIngredient
         ],
         orderRequest: true,
         orderModalData: {

@@ -1,3 +1,5 @@
+import { ordersInitialState } from '../slices/ordersSlice';
+import { TEST_ORDERS } from './test-data';
 import {
   ordersSlice,
   fetchOrders,
@@ -33,14 +35,8 @@ const mockError = {
   message: 'Failed to fetch orders'
 };
 
+  const initialState = ordersInitialState;
 describe('ordersSlice', () => {
-  const initialState = {
-    orders: [],
-    orderByNumber: undefined,
-    isLoading: false,
-    isLoaded: false,
-    errorMessage: ''
-  };
 
   describe('fetchOrders pending', () => {
     it('should set isLoading to true when request starts', () => {

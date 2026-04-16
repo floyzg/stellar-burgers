@@ -4,14 +4,10 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-  updateUser
+  updateUser,
+  userInitialState
 } from '../slices/userSlice';
-import { TUser } from '@utils-types';
-
-const mockUser: TUser = {
-  email: 'test@example.com',
-  name: 'Test User'
-};
+import { TEST_USERS, TEST_API_RESPONSES } from './test-data';
 
 const mockError = {
   success: false,
@@ -19,21 +15,16 @@ const mockError = {
 };
 
 describe('userSlice', () => {
-  const initialState = {
-    user: null,
-    isAuthLoading: false,
-    isAuthChecked: false,
-    errorText: ''
-  };
+  const initialState = userInitialState;
 
   describe('getUser', () => {
     it('should set user on getUser fulfilled', () => {
       const state = userSlice.reducer(
         initialState,
-        getUser.fulfilled(mockUser, '')
+        getUser.fulfilled(TEST_USERS.validUser, '')
       );
 
-      expect(state.user).toEqual(mockUser);
+      expect(state.user).toEqual(TEST_USERS.validUser);
       expect(state.isAuthLoading).toBe(false);
       expect(state.isAuthChecked).toBe(true);
       expect(state.errorText).toBe('');
@@ -73,13 +64,13 @@ describe('userSlice', () => {
     it('should set user on loginUser fulfilled', () => {
       const state = userSlice.reducer(
         initialState,
-        loginUser.fulfilled(mockUser, '', {
-          email: 'test@example.com',
-          password: 'password'
+        loginUser.fulfilled(TEST_USERS.validUser, '', {
+          email: TEST_USERS.validUser.email,
+          password: 'password123'
         })
       );
 
-      expect(state.user).toEqual(mockUser);
+      expect(state.user).toEqual(TEST_USERS.validUser);
       expect(state.isAuthLoading).toBe(false);
       expect(state.isAuthChecked).toBe(true);
       expect(state.errorText).toBe('');
@@ -121,7 +112,7 @@ describe('userSlice', () => {
     it('should clear user on logoutUser fulfilled', () => {
       const stateWithUser = {
         ...initialState,
-        user: mockUser,
+        user: TEST_USERS.validUser,
         isAuthChecked: true
       };
 
@@ -138,14 +129,14 @@ describe('userSlice', () => {
     it('should set user on registerUser fulfilled', () => {
       const state = userSlice.reducer(
         initialState,
-        registerUser.fulfilled(mockUser, '', {
+        registerUser.fulfilled(TEST_USERS.validUser, '', {
           email: 'test@example.com',
           name: 'Test',
           password: 'pass'
         })
       );
 
-      expect(state.user).toEqual(mockUser);
+      expect(state.user).toEqual(TEST_USERS.validUser);
       expect(state.isAuthLoading).toBe(false);
       expect(state.errorText).toBe('');
     });
@@ -184,21 +175,21 @@ describe('userSlice', () => {
   describe('updateUser', () => {
     it('should update user on updateUser fulfilled', () => {
       const state = userSlice.reducer(
-        { ...initialState, user: mockUser },
-        updateUser.fulfilled(mockUser, '', {
+        { ...initialState, user: TEST_USERS.validUser },
+        updateUser.fulfilled(TEST_USERS.validUser, '', {
           email: 'test@example.com',
           name: 'Updated Test',
           password: 'pass'
         })
       );
 
-      expect(state.user).toEqual(mockUser);
+      expect(state.user).toEqual(TEST_USERS.validUser);
       expect(state.errorText).toBe('');
     });
 
     it('should set error on updateUser rejected', () => {
       const state = userSlice.reducer(
-        { ...initialState, user: mockUser },
+        { ...initialState, user: TEST_USERS.validUser },
         updateUser.rejected(
           null,
           '',
@@ -226,12 +217,12 @@ describe('userSlice', () => {
 
       state = userSlice.reducer(
         state,
-        loginUser.fulfilled(mockUser, '', {
+        loginUser.fulfilled(TEST_USERS.validUser, '', {
           email: 'test@example.com',
           password: 'password'
         })
       );
-      expect(state.user).toEqual(mockUser);
+      expect(state.user).toEqual(TEST_USERS.validUser);
       expect(state.isAuthLoading).toBe(false);
       expect(state.isAuthChecked).toBe(true);
     });
@@ -265,7 +256,7 @@ describe('userSlice', () => {
     it('should handle complete logout flow', () => {
       let state: any = {
         ...initialState,
-        user: mockUser,
+        user: TEST_USERS.validUser,
         isAuthChecked: true
       };
 

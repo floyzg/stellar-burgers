@@ -71,3 +71,7 @@ export const feedSlice = createSlice({
       });
   }
 });
+
+export { initialState as feedsInitialState };
+
+export default feedSlice.reducer;

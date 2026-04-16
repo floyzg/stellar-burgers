@@ -169,3 +169,7 @@ export const userSlice = createSlice({
       });
   }
 });
+
+export { initialState as userInitialState };
+
+export default userSlice.reducer;

@@ -1,59 +1,21 @@
-import { ingredientsSlice, fetchIngredients } from '../slices/ingredientsSlice';
-import { TIngredient } from '@utils-types';
-
-const mockIngredients: TIngredient[] = [
-  {
-    _id: '643d69a5c3f7b9001cef0370',
-    name: 'Краторная булка N-200i',
-    type: 'bun',
-    proteins: 80,
-    fat: 24,
-    carbohydrates: 53,
-    calories: 420,
-    price: 1255,
-    image: 'https://code.s3.yandex.net/react/code/bun-01.png',
-    image_large: 'https://code.s3.yandex.net/react/code/bun-01-large.png',
-    image_mobile: 'https://code.s3.yandex.net/react/code/bun-01-mobile.png'
-  },
-  {
-    _id: '643d69a5c3f7b9001cef0372',
-    name: 'Мясо бессмертных животных',
-    type: 'main',
-    proteins: 433,
-    fat: 244,
-    carbohydrates: 33,
-    calories: 4242,
-    price: 1337,
-    image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-    image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
-    image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png'
-  },
-  {
-    _id: '643d69a5c3f7b9001cef0374',
-    name: 'Соус Spicy-X',
-    type: 'sauce',
-    proteins: 30,
-    fat: 20,
-    carbohydrates: 42,
-    calories: 99,
-    price: 90,
-    image: 'https://code.s3.yandex.net/react/code/sauce-01.png',
-    image_large: 'https://code.s3.yandex.net/react/code/sauce-01-large.png',
-    image_mobile: 'https://code.s3.yandex.net/react/code/sauce-01-mobile.png'
-  }
-];
-
-const mockError = {
-  success: false,
-  message: 'Network error'
-};
+import {
+  ingredientsSlice,
+  fetchIngredients,
+  ingredientsInitialState
+} from '../slices/ingredientsSlice';
+import { TEST_INGREDIENTS, TEST_API_RESPONSES } from './test-data';
 
 describe('ingredientsSlice', () => {
-  const initialState = {
-    ingredients: [],
-    isLoading: false,
-    isLoaded: false,
-    errorMessage: ''
+  const initialState = ingredientsInitialState;
+  const mockIngredients = [
+    TEST_INGREDIENTS.bun,
+    TEST_INGREDIENTS.main,
+    TEST_INGREDIENTS.sauce
+  ];
+
+  const mockError = {
+    success: false,
+    message: 'Network error'
   };
 
   describe('fetchIngredients pending', () => {

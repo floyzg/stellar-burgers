@@ -1,3 +1,6 @@
+import { SELECTORS } from '../support/selectors';
+import { TEST_DATA } from '../support/test-data';
+
 describe('Burger Constructor', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -6,195 +9,147 @@ describe('Burger Constructor', () => {
 
   describe('Adding ingredients', () => {
     it('should add a bun ingredient to the constructor', () => {
-      // Get first bun ingredient
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Verify bun is added to top of constructor
-      cy.get('[data-testid="constructor-bun-top"]').should(
+      cy.get(SELECTORS.constructor.bunTop).should(
         'contain',
-        'Краторная булка N-200i'
+        TEST_DATA.ingredients.bun.name
       );
     });
 
     it('should add a main ingredient to the constructor', () => {
-      // Add bun first
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Add main ingredient
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Verify ingredient is added to middle section
-      cy.get('[data-testid="constructor-filling"]').should(
+      cy.get(SELECTORS.constructor.filling).should(
         'contain',
-        'Мясо бессмертных животных'
+        TEST_DATA.ingredients.main1.name
       );
     });
 
     it('should add sauce ingredient to the constructor', () => {
-      // Add bun first
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Add sauce ingredient
-      cy.get('[data-testid="ingredient-sauce-643d69a5c3f7b9001cef0374"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.sauceIngredient).first().click();
 
-      // Verify ingredient is added
-      cy.get('[data-testid="constructor-filling"]').should(
+      cy.get(SELECTORS.constructor.filling).should(
         'contain',
-        'Соус Spicy-X'
+        TEST_DATA.ingredients.sauce.name
       );
     });
 
     it('should add multiple ingredients to the constructor', () => {
-      // Add bun
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Add multiple main and sauce ingredients
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-sauce-643d69a5c3f7b9001cef0374"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0373"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Verify all ingredients are added
-      cy.get('[data-testid="constructor-filling"]').should(
+      cy.get(SELECTORS.ingredients.sauceIngredient).first().click();
+
+      cy.get(SELECTORS.ingredients.mainIngredient2).first().click();
+
+      cy.get(SELECTORS.constructor.filling).should(
         'contain',
-        'Мясо бессмертных животных'
+        TEST_DATA.ingredients.main1.name
       );
-      cy.get('[data-testid="constructor-filling"]').should(
+      cy.get(SELECTORS.constructor.filling).should(
         'contain',
-        'Соус Spicy-X'
+        TEST_DATA.ingredients.sauce.name
       );
-      cy.get('[data-testid="constructor-filling"]').should(
+      cy.get(SELECTORS.constructor.filling).should(
         'contain',
-        'ВРЕМЕННОЕ ПОСТОЯНСТВО ЯЙЦА'
+        TEST_DATA.ingredients.main2.name
       );
     });
   });
 
   describe('Ingredient details modal', () => {
     it('should open ingredient details modal on ingredient click in ingredient list', () => {
-      // Click on ingredient
-      cy.get('[data-testid="ingredient-card-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Verify modal is visible
-      cy.get('[data-testid="ingredient-details-modal"]').should('be.visible');
+      cy.get(SELECTORS.modals.ingredientDetails).should('be.visible');
 
-      // Verify correct ingredient name is displayed
-      cy.get('[data-testid="ingredient-modal-name"]').should(
+      cy.get(SELECTORS.modals.ingredientName).should(
         'contain',
-        'Мясо бессмертных животных'
+        TEST_DATA.ingredients.main1.name
       );
     });
 
     it('should display correct ingredient data in modal', () => {
-      cy.get('[data-testid="ingredient-card-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      cy.get('[data-testid="ingredient-details-modal"]').should('be.visible');
-      cy.get('[data-testid="ingredient-modal-calories"]').should(
+      cy.get(SELECTORS.modals.ingredientDetails).should('be.visible');
+      cy.get(SELECTORS.modals.ingredientCalories).should(
         'contain',
-        '4242'
+        TEST_DATA.modal.ingredientCalories
       );
-      cy.get('[data-testid="ingredient-modal-proteins"]').should(
+      cy.get(SELECTORS.modals.ingredientProteins).should(
         'contain',
-        '433'
+        TEST_DATA.modal.ingredientProteins
       );
-      cy.get('[data-testid="ingredient-modal-fat"]').should('contain', '244');
-      cy.get('[data-testid="ingredient-modal-carbs"]').should('contain', '33');
+      cy.get(SELECTORS.modals.ingredientFat).should(
+        'contain',
+        TEST_DATA.modal.ingredientFat
+      );
+      cy.get(SELECTORS.modals.ingredientCarbs).should(
+        'contain',
+        TEST_DATA.modal.ingredientCarbs
+      );
     });
 
     it('should close modal when clicking close button', () => {
-      // Open modal
-      cy.get('[data-testid="ingredient-card-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-details-modal"]').should('be.visible');
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Click close button
-      cy.get('[data-testid="modal-close-button"]').click();
+      cy.get(SELECTORS.modals.ingredientDetails).should('be.visible');
 
-      // Verify modal is closed
-      cy.get('[data-testid="ingredient-details-modal"]').should('not.exist');
+      cy.get(SELECTORS.modals.closeButton).click();
+
+      cy.get(SELECTORS.modals.ingredientDetails).should('not.exist');
     });
 
     it('should close modal when clicking overlay', () => {
-      // Open modal
-      cy.get('[data-testid="ingredient-card-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-details-modal"]').should('be.visible');
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Click overlay
-      cy.get('[data-testid="modal-overlay"]').click({ force: true });
+      cy.get(SELECTORS.modals.ingredientDetails).should('be.visible');
 
-      // Verify modal is closed
-      cy.get('[data-testid="ingredient-details-modal"]').should('not.exist');
+      cy.get(SELECTORS.modals.overlay).click({ force: true });
+
+      cy.get(SELECTORS.modals.ingredientDetails).should('not.exist');
     });
   });
 
   describe('Order creation', () => {
     it('should redirect to login when unauthenticated user clicks order button', () => {
-      // Add ingredients to constructor
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Click order button
-      cy.get('[data-testid="order-button"]').click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Verify redirect to login
+      cy.get(SELECTORS.constructor.orderButton).click();
+
       cy.url().should('include', '/login');
     });
 
     it('should create order with valid burger composition', () => {
-      // Set authentication tokens
       cy.setAuthTokens();
 
       cy.visit('/');
       cy.wait('@getIngredients');
 
-      // Build burger
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-sauce-643d69a5c3f7b9001cef0374"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Place order
-      cy.get('[data-testid="order-button"]').click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Wait for order request and verify
+      cy.get(SELECTORS.ingredients.sauceIngredient).first().click();
+
+      cy.get(SELECTORS.constructor.orderButton).click();
+
       cy.wait('@createOrder');
 
-      // Verify order modal appears with order number
-      cy.get('[data-testid="order-details-modal"]').should('be.visible');
-      cy.get('[data-testid="order-number"]').should('contain', '12345');
+      cy.get(SELECTORS.modals.orderDetails).should('be.visible');
+      cy.get(SELECTORS.modals.orderNumber).should(
+        'contain',
+        TEST_DATA.order.number
+      );
     });
 
     it('should close order modal and clear constructor on modal close', () => {
@@ -203,29 +158,20 @@ describe('Burger Constructor', () => {
       cy.visit('/');
       cy.wait('@getIngredients');
 
-      // Build burger
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Place order
-      cy.get('[data-testid="order-button"]').click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
+
+      cy.get(SELECTORS.constructor.orderButton).click();
+
       cy.wait('@createOrder');
 
-      // Verify order modal is open
-      cy.get('[data-testid="order-details-modal"]').should('be.visible');
+      cy.get(SELECTORS.modals.orderDetails).should('be.visible');
 
-      // Close modal
-      cy.get('[data-testid="modal-close-button"]').click();
+      cy.get(SELECTORS.modals.closeButton).click();
 
-      // Verify modal is closed
-      cy.get('[data-testid="order-details-modal"]').should('not.exist');
-
-      // Verify constructor is empty
-      cy.get('[data-testid="constructor-empty"]').should('be.visible');
+      cy.get(SELECTORS.modals.orderDetails).should('not.exist');
+      cy.get(SELECTORS.constructor.constructorEmpty).should('be.visible');
     });
 
     it('should display correct order details in modal', () => {
@@ -234,50 +180,46 @@ describe('Burger Constructor', () => {
       cy.visit('/');
       cy.wait('@getIngredients');
 
-      // Build burger
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Place order
-      cy.get('[data-testid="order-button"]').click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
+
+      cy.get(SELECTORS.constructor.orderButton).click();
+
       cy.wait('@createOrder');
 
-      // Verify modal content
-      cy.get('[data-testid="order-details-modal"]').should('be.visible');
-      cy.get('[data-testid="order-number"]').should('contain', '12345');
-      cy.get('[data-testid="order-name"]').should('contain', 'Space burger');
+      cy.get(SELECTORS.modals.orderDetails).should('be.visible');
+      cy.get(SELECTORS.modals.orderNumber).should(
+        'contain',
+        TEST_DATA.order.number
+      );
+      cy.get(SELECTORS.modals.orderName).should(
+        'contain',
+        TEST_DATA.order.name
+      );
     });
   });
 
   describe('Constructor state management', () => {
     it('should calculate total price correctly', () => {
-      // Add bun (1255)
-      cy.get('[data-testid="ingredient-bun-643d69a5c3f7b9001cef0370"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.bunIngredient).first().click();
 
-      // Add main (1337)
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
 
-      // Price should be: (1255 * 2 for bun) + 1337 = 3847
-      cy.get('[data-testid="order-price"]').should('contain', '3847');
+      cy.get(SELECTORS.constructor.orderPrice).should(
+        'contain',
+        TEST_DATA.order.price
+      );
     });
 
     it('should disable order button when constructor is empty', () => {
-      cy.get('[data-testid="order-button"]').should('be.disabled');
+      cy.get(SELECTORS.constructor.orderButton).should('be.disabled');
     });
 
-    it('should disable order button when only sauce/main ingredient is added without bun', () => {
-      cy.get('[data-testid="ingredient-main-643d69a5c3f7b9001cef0372"]')
-        .first()
-        .click();
-      cy.get('[data-testid="order-button"]').should('be.disabled');
+    it('should disable order button when only main ingredient is added without bun', () => {
+      cy.get(SELECTORS.ingredients.mainIngredient1).first().click();
+
+      cy.get(SELECTORS.constructor.orderButton).should('be.disabled');
     });
   });
 });

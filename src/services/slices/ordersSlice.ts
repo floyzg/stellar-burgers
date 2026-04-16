@@ -74,3 +74,7 @@ export const ordersSlice = createSlice({
       });
   }
 });
+
+export { initialState as ordersInitialState };
+
+export default ordersSlice.reducer;

@@ -1,3 +1,5 @@
+import { feedsInitialState } from '../slices/feedsSlice';
+import { TEST_ORDERS, TEST_API_RESPONSES } from './test-data';
 import { feedSlice, fetchFeeds } from '../slices/feedsSlice';
 import { TOrder } from '@utils-types';
 
@@ -33,17 +35,8 @@ const mockError = {
   message: 'Failed to fetch feeds'
 };
 
+  const initialState = feedsInitialState;
 describe('feedSlice', () => {
-  const initialState = {
-    orders: [],
-    feed: {
-      total: 0,
-      totalToday: 0
-    },
-    isLoading: false,
-    isLoaded: false,
-    errorMessage: ''
-  };
 
   describe('fetchFeeds pending', () => {
     it('should set isLoading to true and isLoaded to false when request starts', () => {
