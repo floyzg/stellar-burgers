@@ -1,0 +1,83 @@
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "643d69a5c3f7b9001cef0370",
+      "name": "Краторная булка N-200i",
+      "type": "bun",
+      "proteins": 80,
+      "fat": 24,
+      "carbohydrates": 53,
+      "calories": 420,
+      "price": 1255,
+      "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+      "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png"
+    },
+    {
+      "_id": "643d69a5c3f7b9001cef0371",
+      "name": "Флюоресцентная булка R2D3",
+      "type": "bun",
+      "proteins": 44,
+      "fat": 26,
+      "carbohydrates": 85,
+      "calories": 643,
+      "price": 988,
+      "image": "https://code.s3.yandex.net/react/code/bun-02.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+      "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png"
+    },
+    {
+      "_id": "643d69a5c3f7b9001cef0372",
+      "name": "Мясо бессмертных животных",
+      "type": "main",
+      "proteins": 433,
+      "fat": 244,
+      "carbohydrates": 33,
+      "calories": 4242,
+      "price": 1337,
+      "image": "https://code.s3.yandex.net/react/code/meat-01.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/meat-01-mobile.png",
+      "image_large": "https://code.s3.yandex.net/react/code/meat-01-large.png"
+    },
+    {
+      "_id": "643d69a5c3f7b9001cef0373",
+      "name": "ВРЕМЕННОЕ ПОСТОЯНСТВО ЯЙЦА",
+      "type": "main",
+      "proteins": 84,
+      "fat": 1,
+      "carbohydrates": 0,
+      "calories": 342,
+      "price": 987,
+      "image": "https://code.s3.yandex.net/react/code/meat-02.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
+      "image_large": "https://code.s3.yandex.net/react/code/meat-02-large.png"
+    },
+    {
+      "_id": "643d69a5c3f7b9001cef0374",
+      "name": "Соус Spicy-X",
+      "type": "sauce",
+      "proteins": 30,
+      "fat": 20,
+      "carbohydrates": 42,
+      "calories": 99,
+      "price": 90,
+      "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png",
+      "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png"
+    },
+    {
+      "_id": "643d69a5c3f7b9001cef0375",
+      "name": "Соус фирменный Space Sauce",
+      "type": "sauce",
+      "proteins": 50,
+      "fat": 22,
+      "carbohydrates": 11,
+      "calories": 14,
+      "price": 80,
+      "image": "https://code.s3.yandex.net/react/code/sauce-02.png",
+      "image_mobile": "https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
+      "image_large": "https://code.s3.yandex.net/react/code/sauce-02-large.png"
+    }
+  ]
+}

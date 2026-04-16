@@ -51,3 +51,7 @@ export const ingredientsSlice = createSlice({
       });
   }
 });
+
+export { initialState as ingredientsInitialState };
+
+export default ingredientsSlice.reducer;
